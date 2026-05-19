@@ -1,0 +1,83 @@
+<template>
+    <lightning-card title="Account Projects" icon-name="standard:account">
+
+        <div class="slds-p-horizontal_medium slds-p-bottom_small">
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-size_1-of-2">
+                    <p class="slds-text-title">Account</p>
+                    <p class="slds-text-heading_small">{accountName}</p>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <p class="slds-text-title">Total Projects</p>
+                    <p class="slds-text-heading_small">{totalProjects}</p>
+                </div>
+            </div>
+        </div>
+
+    <div class="slds-p-horizontal_medium slds-p-bottom_small">
+        <div class="slds-grid slds-gutters slds-wrap">    
+
+            <div class="slds-col slds-size_1-of-2">
+                <lightning-combobox
+                    name="status"
+                    label="Filter by Status"
+                    value={selectedStatus}
+                    options={statusOptions}
+                    onchange={handleStatusChange}
+                    disabled={showOnlyActive}>
+                </lightning-combobox>
+             </div>
+             <div class="slds-col slds-size_1-of-2">
+                <lightning-input
+                    type="toggle"
+                    label="Show Only Active Projects"
+                    checked={showOnlyActive}
+                    onchange={handleToggleChange}
+                    message-toggle-active="On"
+                    message-toggle-inactive="Off">
+                </lightning-input>
+            </div>
+        </div>
+    </div>
+
+        <template lwc:if={hasProjects}>
+            <lightning-datatable
+            key-field="id"
+            data={row}
+            columns={columnsList}
+            hide-checkbox-column>
+            </lightning-datatable>
+
+            <div class="slds-grid slds-grid_align-spread slds-p-vertical_small slds-border_top slds-m-top_small">
+                <lightning-button 
+                  label="Previous" 
+                  icon-name="utility:chevronleft"
+                  onclick={handlePrevious} 
+                  disabled={disablePrevious}
+                ></lightning-button>
+        
+        
+                <span class="slds-align-middle slds-text-body_small"> 
+                    Page {currentPage} of {totalPages}
+                </span>
+        
+                <lightning-button 
+                  label="Next" 
+                  icon-name="utility:chevronright"
+                  onclick={handleNext} 
+                  disabled={disableNext}
+                ></lightning-button>
+        
+            </div>
+
+        </template>
+
+        <template lwc:else>
+            <div class="slds-text-align_center slds-p-vertical_large slds-text-color_weak">
+                No projects match the current filter.
+            </div>
+        </template>
+
+    </lightning-card>
+    
+</template>
